@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import ChatMessage from "./ChatMessage";
 import { IconButton } from "@material-ui/core";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import disableScroll from "./DisableScroll";
 import "./ChatBody.css";
+
 function ChatBody({ messages }) {
   const [showScollIcon, setshowScollIcon] = useState(false);
-  const scrollToBottom = () =>
+
+  const scrollToBottom = () => {
+    disableScroll(true);
     document.querySelector(".chat__body").scrollTo(0, 99999);
+  };
+
   const scrollFunction = () => {
     const element = document.querySelector(".chat__body");
     const totalHeight = element.scrollHeight - element.clientHeight;
@@ -14,10 +20,14 @@ function ChatBody({ messages }) {
 
     if (currentScrollPosition < totalHeight * 0.9) {
       setshowScollIcon(true);
+    } else if (currentScrollPosition === totalHeight) {
+      disableScroll(false);
     } else {
       setshowScollIcon(false);
     }
   };
+  
+  
   return (
     <div onScroll={scrollFunction} className="chat__body">
       {/* Map start */}
@@ -32,12 +42,10 @@ function ChatBody({ messages }) {
         </div>
       ))}
       {/* End of map */}
-      <div  className={showScollIcon?"appear":"chat__floating__arrow"}>
-       
-          <IconButton onClick={scrollToBottom}>
-            <ExpandMoreIcon />
-          </IconButton>
-        
+      <div className={showScollIcon ? "appear" : "chat__floating__arrow"}>
+        <IconButton onClick={scrollToBottom}>
+          <ExpandMoreIcon />
+        </IconButton>
       </div>
     </div>
   );

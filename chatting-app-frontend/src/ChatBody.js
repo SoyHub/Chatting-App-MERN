@@ -9,7 +9,7 @@ function ChatBody({ messages }) {
   const [showScollIcon, setshowScollIcon] = useState(false);
 
   const scrollToBottom = () => {
-    disableScroll(true);
+    // disableScroll(true);
     document.querySelector(".chat__body").scrollTo(0, 99999);
   };
 
